@@ -14,11 +14,12 @@ export class News extends Component {
         }
     }
 
-    async componentDidMount(){
-        let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=1&pageSize=${this.props.pageSize}`
+    async updateNews(){
+      let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=${this.state.page}&pageSize=${this.props.pageSize}`
         let data = await fetch(URL);
         this.setState({loading: true});
         let parsedData = await data.json();
+        console.log(parsedData);
         
         this.setState({articles: parsedData.articles, 
           totalResults: parsedData.totalResults,
@@ -26,35 +27,59 @@ export class News extends Component {
         });
     }
 
-    handlePrevClick = async () => {
-      console.log("Clicked on previous");
-
-      let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
-        let data = await fetch(URL);
-        this.setState({loading: true});
-        let parsedData = await data.json();
+    async componentDidMount(){
+        // let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=1&pageSize=${this.props.pageSize}`
+        // let data = await fetch(URL);
+        // this.setState({loading: true});
+        // let parsedData = await data.json();
         
+        // this.setState({articles: parsedData.articles, 
+        //   totalResults: parsedData.totalResults,
+        //   loading: false
+        // });
+
+        this.updateNews();
+    }
+
+    handlePrevClick = async () => {
+      // console.log("Clicked on previous");
+
+      // let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
+      //   let data = await fetch(URL);
+      //   this.setState({loading: true});
+      //   let parsedData = await data.json();
+        
+      // this.setState({
+      //   page: this.state.page - 1,
+      //   articles: parsedData.articles,
+      //   loading: false
+      // })
+
       this.setState({
-        page: this.state.page - 1,
-        articles: parsedData.articles,
-        loading: false
+        page: this.state.page - 1
       })
+      this.updateNews();
     }
 
     handleNextClick = async () => {
-      console.log("Clicked on next");
-      if(!(this.state.page + 1>Math.ceil(this.state.totalResults/this.props.pageSize))){
-        let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
-        this.setState({loading: true});
-        let data = await fetch(URL);
-        let parsedData = await data.json();
+      // console.log("Clicked on next");
+      // if(!(this.state.page + 1>Math.ceil(this.state.totalResults/this.props.pageSize))){
+      //   let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
+      //   this.setState({loading: true});
+      //   let data = await fetch(URL);
+      //   let parsedData = await data.json();
         
+      // this.setState({
+      //   page: this.state.page + 1,
+      //   articles: parsedData.articles,
+      //   loading: false
+      // })
+      // }
+
       this.setState({
-        page: this.state.page + 1,
-        articles: parsedData.articles,
-        loading: false
+        page: this.state.page + 1
       })
-      }
+      this.updateNews();
     }
 
   render() {
