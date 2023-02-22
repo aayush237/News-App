@@ -65,7 +65,8 @@ export class News extends Component {
         <div className='row'>
         {!this.state.loading && this.state.articles.map((element) => {
         return <div className='col-md-4' key={element.url}>
-            <NewsItem title={element.title?element.title:""} description={ element.description ? element.description: "" } imageURL={element.urlToImage ? element.urlToImage : "https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg"} newsURL={element.url}/>
+            <NewsItem title={element.title?element.title:""} description={ element.description ? element.description: "" } imageURL={element.urlToImage ? element.urlToImage : "https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg"} 
+            newsURL={element.url} author={element.author? element.author: "Unknown"} date={element.publishedAt} source={element.source.name}/>
         </div>
         })}
         </div>
