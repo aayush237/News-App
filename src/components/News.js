@@ -2,8 +2,21 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './spinner'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import PropTypes from 'prop-types'
 
 export class News extends Component {
+
+  static defaultProps = {
+    country: "in",
+    pageSize: 5, 
+    category: ""
+  }
+  
+  static propTypes = {
+    country: PropTypes.string,
+    pageSize: PropTypes.number, 
+    category: PropTypes.string
+  }
 
    capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -22,7 +35,8 @@ export class News extends Component {
     }
 
     async updateNews(){
-      let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=${this.state.page}&pageSize=${this.props.pageSize}`
+      this.props.setProgress(10);
+      let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
         let data = await fetch(URL);
         this.setState({loading: true});
         let parsedData = await data.json();
@@ -32,6 +46,7 @@ export class News extends Component {
           totalResults: parsedData.totalResults,
           loading: false,
         });
+        this.props.setProgress(100);
     }
 
     async componentDidMount(){
@@ -91,7 +106,7 @@ export class News extends Component {
 
     fetchMoreData = async () => {
       this.setState({page: this.state.page + 1});
-      let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=51df0c847452447f83006c7fa0cae906&page=${this.state.page}&pageSize=${this.props.pageSize}`
+      let URL = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
         let data = await fetch(URL);
         let parsedData = await data.json();
         console.log(parsedData);
@@ -132,5 +147,6 @@ export class News extends Component {
     )
   }
 }
+
 
 export default News
